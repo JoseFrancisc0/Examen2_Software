@@ -10,6 +10,10 @@ class Operacion:
         self.valor = valor
         self.fecha = fecha
 
+    def __str__(self):
+        return(f"origen={self.origen}, destino={self.destino}, "
+                f"valor={self.valor}, fecha={self.fecha}")
+
 class CuentaUsuario:
     def __init__(self, numero, nombre, saldo, numerosContacto):
         self.numero = numero
@@ -17,25 +21,22 @@ class CuentaUsuario:
         self.saldo = saldo
         self.numerosContacto = numerosContacto
         self.historial = []
-        self.crearCuenta(numero, nombre, saldo, numerosContacto)
+        self.crearCuenta()
     
-    def crearCuenta(self, numero, nombre, saldo, numerosContacto):
-        guia[numero] = CuentaUsuario(numero, nombre, saldo, numerosContacto)
+    def crearCuenta(self):
+        guia[self.numero] = self
     
     def pagar(self, destino, valor):
         # 1. Destino esta en contactos
         # 2. Valor <= saldo
-        if destino not in self.numerosContacto:
+        if destino.numero not in self.numerosContacto:
             return False
         if valor > self.saldo:
             return False
-        self.saldo -= valor
-        op = Operacion(self.numero, destino, valor, date.today)
+        self.saldo = self.saldo - valor
+        op = Operacion(self, destino, valor, date.today)
         self.historial.append(op)
-
-        if destino != self.numero:
-            des = guia[destino]
-            des.historial.append(op)
+        destino.historial.append(op)
         
         return True
 
@@ -54,3 +55,15 @@ class CuentaUsuario:
         for n in self.numerosContacto:
             c = guia[n]
             print(c.numero, ": ", c.nombre)
+
+    def __str__(self):
+        return(f"numero={self.numero}, nombre={self.nombre}, "
+                f"saldo={self.saldo}, numerosContacto={self.numerosContacto}")
+
+luisa = CuentaUsuario(123, "Luisa", 400, [456])
+andrea = CuentaUsuario(456, "Andrea", 300, [123])
+
+print(luisa)
+luisa.pagar(andrea, 200)
+print(luisa)
+
