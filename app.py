@@ -79,7 +79,6 @@ def test1():
 ### Test 2: Se realizan multiples pagos desde una sola cuenta
 ###         Si el saldo final es 50, se calcula correctamente el saldo tras una transaccion
 ###         Caso contrario, hay un error en el calculo
-
 def test2():
     arnaldo = CuentaUsuario(21345, "Arnaldo", 200, [123, 456])
     luisa = CuentaUsuario(123, "Luisa", 400, [456])
