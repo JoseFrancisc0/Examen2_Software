@@ -64,6 +64,9 @@ class CuentaUsuario:
 
 ### UNIT TESTING
 
+### Test 1: Se quiere hacer una transaccion de luisa a andrea. 
+###         Si devuelve operacion exitosa, es porque el monto es menor al saldo y el contacto de destino existe
+###         Caso contrario, devuelve error 500
 def test1():
     luisa = CuentaUsuario(123, "Luisa", 400, [456])
     andrea = CuentaUsuario(456, "Andrea", 300, [123])
@@ -72,6 +75,10 @@ def test1():
         print("Operacion exitosa")
     else:
         print("Error 500")
+
+### Test 2: Se realizan multiples pagos desde una sola cuenta
+###         Si el saldo final es 50, se calcula correctamente el saldo tras una transaccion
+###         Caso contrario, hay un error en el calculo
 
 def test2():
     arnaldo = CuentaUsuario(21345, "Arnaldo", 200, [123, 456])
@@ -86,6 +93,9 @@ def test2():
     else:
         print("Calculo erroneo, error 500")
 
+### Test 1: Se quiere hacer una transaccion de luisa a andrea mayor a su saldo. 
+###         Si devuelve operacion exitosa, hay un error en la funcion
+###         Caso contrario, si se impide la operacion, por lo que funciona correctamente
 def test3():
     luisa = CuentaUsuario(123, "Luisa", 400, [456])
     andrea = CuentaUsuario(456, "Andrea", 300, [123])
@@ -95,16 +105,21 @@ def test3():
     else:
         print("Error 500: Saldo insuficiente")
 
+### Test 4: Se quiere hacer una transaccion de luisa a arnaldo.
+###         Si devuelve operacion exitosa, hay un error puesto que luisa no tiene a arnaldo como contacto
+###         Caso contrario, si se impide la operacion, por lo que funciona correctamente  
 def test4():
     arnaldo = CuentaUsuario(21345, "Arnaldo", 200, [123, 456])
     luisa = CuentaUsuario(123, "Luisa", 400, [456])
-
 
     if luisa.pagar(arnaldo, 200):
         print("Operacion exitosa")
     else:
         print("Error 500: No esta en contactos")
 
+### Test 5: Se realizan multiples pagos desde la cuenta de arnaldo
+###         Si devuelve error en historial, es porque las operaciones no se guardaron correctamente en su historial
+###         Caso contrario, si se guardan correctamente
 def test5():
     arnaldo = CuentaUsuario(21345, "Arnaldo", 200, [123, 456])
     luisa = CuentaUsuario(123, "Luisa", 400, [456])
