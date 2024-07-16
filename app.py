@@ -1,5 +1,7 @@
 from datetime import date
 
+### APP PAGOS
+
 databaseUsers = []
 guia = {}
 
@@ -44,10 +46,10 @@ class CuentaUsuario:
         print("Saldo de ", self.nombre, ": ", self.saldo)
         print("Operaciones de ", self.nombre)
         for op in self.historial:
-            if op.origen == self.numero:
+            if op.origen == self:
                 other = guia[op.destino.numero]
                 print("Pago realizado de ", op.valor, " a ", other.nombre)
-            if op.destino == self.numero:
+            if op.destino == self:
                 other = guia[op.origen.numero]
                 print("Pago recibido de ", op.valor, " de ", other.nombre)
 
@@ -60,10 +62,64 @@ class CuentaUsuario:
         return(f"numero={self.numero}, nombre={self.nombre}, "
                 f"saldo={self.saldo}, numerosContacto={self.numerosContacto}")
 
-luisa = CuentaUsuario(123, "Luisa", 400, [456])
-andrea = CuentaUsuario(456, "Andrea", 300, [123])
+### UNIT TESTING
 
-print(luisa)
-luisa.pagar(andrea, 200)
-print(luisa)
+def test1():
+    luisa = CuentaUsuario(123, "Luisa", 400, [456])
+    andrea = CuentaUsuario(456, "Andrea", 300, [123])
 
+    if luisa.pagar(andrea, 200):
+        print("Operacion exitosa")
+    else:
+        print("Error 500")
+
+def test2():
+    arnaldo = CuentaUsuario(21345, "Arnaldo", 200, [123, 456])
+    luisa = CuentaUsuario(123, "Luisa", 400, [456])
+    andrea = CuentaUsuario(456, "Andrea", 300, [123])
+
+    arnaldo.pagar(luisa, 50)
+    arnaldo.pagar(andrea, 100)
+
+    if arnaldo.saldo == 50:
+        print("Calculo exitoso")
+    else:
+        print("Calculo erroneo, error 500")
+
+def test3():
+    luisa = CuentaUsuario(123, "Luisa", 400, [456])
+    andrea = CuentaUsuario(456, "Andrea", 300, [123])
+
+    if luisa.pagar(andrea, 500):
+        print("Operacion exitosa")
+    else:
+        print("Error 500: Saldo insuficiente")
+
+def test4():
+    arnaldo = CuentaUsuario(21345, "Arnaldo", 200, [123, 456])
+    luisa = CuentaUsuario(123, "Luisa", 400, [456])
+
+
+    if luisa.pagar(arnaldo, 200):
+        print("Operacion exitosa")
+    else:
+        print("Error 500: No esta en contactos")
+
+def test5():
+    arnaldo = CuentaUsuario(21345, "Arnaldo", 200, [123, 456])
+    luisa = CuentaUsuario(123, "Luisa", 400, [456])
+    andrea = CuentaUsuario(456, "Andrea", 300, [123])
+
+    arnaldo.pagar(luisa, 50)
+    arnaldo.pagar(andrea, 100)
+
+    if len(arnaldo.historial) == 0:
+        print("Error en historial")
+    else:
+        print("Historial creado correctamente")
+
+test1()
+test2()
+test3()
+test4()
+test5()
