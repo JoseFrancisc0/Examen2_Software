@@ -125,10 +125,10 @@ def test5():
     andrea = CuentaUsuario(456, "Andrea", 300, [123])
 
     arnaldo.pagar(luisa, 50)
-    arnaldo.pagar(andrea, 100)
+    arnaldo.pagar(andrea, 300)
 
-    if len(arnaldo.historial) == 0:
-        print("Error en historial")
+    if len(arnaldo.historial) == 2:
+        print("Error en logica de historial historial")
     else:
         print("Historial creado correctamente")
 
